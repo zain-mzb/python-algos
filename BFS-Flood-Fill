@@ -1,0 +1,53 @@
+from collections import deque
+
+def floodFill(image, sr, sc, newColor):
+    m = len(image)
+    n =len(image[0])
+    color = image[sr][sc]
+
+
+#If starting color is already newColor, nothing to do
+
+    if color == newColor:
+        return image
+    
+    # BFS Queue
+    q = deque()
+    q.append((sr, sc))
+
+    while q:
+        r,c = q.popleft()
+        #Change color of current cell
+        image[r][c] = newColor
+
+        #Check 4 directions
+        for dr, dc in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
+            nr, nc = r + dr, c + dc
+
+            if 0 <=nr<m and 0<=nc <n:
+                if image[nr][nc] ==color:
+                    q.append((nr, nc))
+    return image
+
+image = [
+    [1, 1, 1],
+    [1, 1, 0],
+    [1, 0, 1]
+]
+
+# Starting position for flood fill
+sr = 1  # row index
+sc = 1  # column index
+
+# New color to fill with
+color = 2
+
+# Run BFS flood fill
+result = floodFill(image, sr, sc, color)
+
+# Print the updated image
+print(result)
+
+
+
+
