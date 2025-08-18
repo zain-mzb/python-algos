@@ -1,0 +1,45 @@
+class UnionFind:
+    def __init__(self, n):
+        self.parent = list(range(n))
+        self.rank = [0] * n
+        
+    def find(self, x):
+        if self.parent[x] != x:
+            self.parent[x] = self.find(self.parent[x])
+        return self.parent[x]
+        
+    def union(self,x,y):
+        rootX, rootY = self.find(x), self.find(y)
+        
+        if rootX == rootY:
+            return False
+        
+        if self.rank[rootX] < self.rank[rootY]:
+            self.parent[rootX] = rootY
+        elif self.rank[rootX] > self.rank[rootY]:
+            self.parent[rootY] = rootX
+        else:
+            self.parent[rootY] = rootX
+            self.rank[rootX] +=1
+        return True
+    
+    def connected(self,x,y):
+        return self.find(x) == self.find(y)
+        
+# Create Union-Find with 10 elements: 0 through 9
+uf = UnionFind(10)
+
+# Connect 0 and 1
+uf.union(0, 1)
+
+# Connect 1 and 2
+uf.union(1, 2)
+
+# Now 0, 1, and 2 should be connected together
+print(uf.connected(0, 2))  # True, since 0 → 1 → 2 are linked
+
+# 0 and 3 are not connected
+print(uf.connected(0, 3))  # False  
+        
+    
+        
